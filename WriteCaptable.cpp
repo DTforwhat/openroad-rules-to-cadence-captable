@@ -1,4 +1,4 @@
-#include  "include/WriteCaptable.h"
+#include  "WriteCaptable.h"
 
 
 void rtc::write_captable(std::ifstream* ifile ,std::ofstream* ofile)

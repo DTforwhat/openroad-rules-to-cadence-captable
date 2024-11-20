@@ -1,7 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <string>
-#include  "include/WriteCaptable.h"
+#include  "WriteCaptable.h"
 
 int main() {
     // Define the input file path and output file path
