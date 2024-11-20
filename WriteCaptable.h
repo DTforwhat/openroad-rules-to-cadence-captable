@@ -1,38 +1,26 @@
 
 #pragma once
 
-
-#include <vector>
+#include <iostream>
+#include <fstream>
 #include <string>
+#include <vector>
+#include <iomanip>
 
 namespace rtc{
-
-
-    class fstring
-    {
-    private:
-
-    public:
-        string line;
-        fstring();
-        fstring(string line);
-        vector<string>* devide();
-        double getDistcnt();
-        double getWidth();
-        string* getline();
-
-    };
 
     //ext strings for fstring per word
     class fline
     {
         private:
-            vector<string> data;
-
 
         public:
+            std::vector<std::string> data;
+            fline()             ;
+            bool   isMetOVER()  ;
+            int    getOVER()    ;
+            int    getMetal()   ; 
             int    getDistcnt() ;
-            int    getMetal()   ;  
             double getWidth()   ;
             double getSpace()   ;
             double getCtot()    ;
@@ -41,8 +29,18 @@ namespace rtc{
             double getCfrg()    ;
     };
 
-    void write_captable();
-    void write_table(double width , double distcnt , vector<double>* data);
-    rtc::write_output(ofstream* ofile, int met , vector<vector<double>> captable);
+    void write_captable(std::ifstream* ifile ,std::ofstream* ofile);
+    
+    void write_table(   double Width                        ,
+                        double space                        ,
+                        double Ctot                         ,
+                        double Cc                           ,
+                        double Carea                        ,
+                        double Cfrg                         ,
+                        std::vector<double>* captable        );
+
+    void write_output(std::ofstream* ofile, int met , std::vector<std::vector<double>> captable);
+
+    fline devide(std::string line);
 
 }

@@ -1,7 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <string>
-#include  "WriteCaptable.h"
+#include  "include/WriteCaptable.h"
 
 int main() {
     // Define the input file path and output file path
@@ -10,10 +10,12 @@ int main() {
 
     // Ask the user for the input and output file paths
     std::cout << "Enter the path of the input file: ";
-    std::getline(std::cin, inputFilePath);  // Read the input file path
+    std::getline(std::cin, inputFilePath);  
+    // Read the input file path
 
     std::cout << "Enter the path for the output file: ";
-    std::getline(std::cin, outputFilePath);  // Read the output file path
+    std::getline(std::cin, outputFilePath);  
+    // Read the output file path
 
     // Open the input file for reading
     std::ifstream inputFile(inputFilePath);
@@ -32,8 +34,7 @@ int main() {
     }
 
     // Read the input file line by line and write to the output file
-    std::string line;
-    rtc::write_captable(inputFilePath , outputFilePath);
+    rtc::write_captable(&inputFile , &outputFile);
 
     // Close both files
     inputFile.close();
