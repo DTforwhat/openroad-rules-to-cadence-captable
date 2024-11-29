@@ -1,7 +1,6 @@
 
-###########################captable#generate#from#extraction_rules(openrcx)#tool################################
+###########################captable#generate#from#extraction_rules(opencx)#tool##################################
                         #author Fengwen(Stephen) Su<fengwen.su@aidatechs.com.cn#
-                        #License : MIT                                         #
 ################################################################################################################
 
 import pymysql
@@ -27,6 +26,7 @@ class CaptableGen(object):
         self.ifile = None
         self.ofile_name = ofile_name
         self.cnt = 0
+        self.linecnt = 0
         self.LayerCount = 0
         if(ofile_name == None):
             self.ofile = sys.stdout
@@ -37,6 +37,7 @@ class CaptableGen(object):
         self.file =open(self.ifile_name,'r')
 
         self.parser()
+        self.writecaptable()
 
     def writesql(self,layer = 0):
         line  = self.file.readline()
@@ -56,22 +57,45 @@ class CaptableGen(object):
                 try:
                     cursor.execute(sql,param)
                     self.cnt+=1
-                    if(self.cnt%10 == 0):
-                        print ("%s wroted" % self.cnt)
                 except pymysql.MySQLError as ex:
                         print("parsing error: %s" % ex )
 
+    def writecaptable(self):
+        sql = "select * from captable"
+        cursor.execute(sql)
+        curlayer  = 0
+        formlayer = 0
+
+        try:
+            file = open(self.ofile_name , 'w')
+            print("wirting captable......")
+            file.write("BASIC_CAP_TABLE ...")
+        except Exception as e:
+            print("error writting captable:" % e)
+
+        while True:
+            dist = cursor.fetchone()
+            if (dist == None):
+                print("captable written !\ntotoal line read: %d\ntotoal wires written:%d" % (self.linecnt,  self.cnt))
+                file.write("\n\nEND_BASIC_CAP_TABLE")
+                break
+            curlayer = dist[0]
+            if(curlayer != formlayer):
+                datalist = ["\n\n\n","M",str(dist[0]),"\n","Width".ljust(10),"space".ljust(10),"Cc".ljust(15),"Cfrg".ljust(15),"Res","\n"]
+                file.writelines(datalist)
+            datalist = [ str(dist[1]).ljust(10),str(dist[2]).ljust(10),str(dist[3]).ljust(15),str(dist[4]).ljust(15),str(dist[5]).ljust(15),'\n']
+            file.writelines(datalist)
+            formlayer = dist[0]
 
 
     def parser(self):
         print("parsing......")
         cnt = 0
-        linecnt =0 ;
         try:
             for line in self.file:
-                linecnt+=1
-                if(linecnt%1000 == 0):
-                    print("%s line read" % linecnt)
+                self.linecnt+=1
+                if(self.linecnt%1000 == 0):
+                    print("%s line read" % self.linecnt)
                 data  = line.split()
 
                 if(len(data)==0):
@@ -113,7 +137,7 @@ class CaptableGen(object):
             print("parsing error: %s" % e )
 
 if __name__ == "__main__":
-    print( '''***************** cpgen - Auto generate a captable. *****************
+    print( '''\n\n\n***************** cpgen - Auto generate a captable. *****************
 Author: Fengwen(Stephen) Su <fengwen.su@aidatechs.com.cn>
 License: MIT
 *********************************************************************\n
@@ -130,7 +154,6 @@ License: MIT
 
     tbg = CaptableGen(sys.argv[1], ofile_name)
 
-    print("captable generated")
 
     db.close()
 
