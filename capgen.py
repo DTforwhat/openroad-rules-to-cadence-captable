@@ -1,6 +1,7 @@
 
 ###########################captable#generate#from#extraction_rules(opencx)#tool##################################
                         #author Fengwen(Stephen) Su<fengwen.su@aidatechs.com.cn#
+                        #License : MIT                                         #
 ################################################################################################################
 
 import pymysql
