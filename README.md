@@ -8,6 +8,6 @@ How to use it
 
 2 run capgen.py using bash command
 
-- python3 capgen.py ext_rules.rules [Output_file.captable]
+ `python3 capgen.py ext_rules.rules [Output_file.captable]`
 
 
