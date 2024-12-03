@@ -2,7 +2,7 @@
 
 this script generates a captable from a extraction rules file (OpenRCX) 
 
-How to use it
+### How to use it
 
 1 start a local mysql server 
 
